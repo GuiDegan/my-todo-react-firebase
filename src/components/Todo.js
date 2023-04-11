@@ -44,24 +44,18 @@ const Todo = () => {
         }
     }
 
-    console.log(todos);
-
     //Delete Handler
     const deleteTodo = async (id) => {
         try {
-
-            if (window.confirm("Are you sure you want to delete this Task!")) {
+            if (window.confirm("Tem certeza que deseja deletar esta tarefa?")) {
                 const documentRef = doc(db, "todo", id);
                 await deleteDoc(documentRef)
                 window.location.reload()
             }
-
         } catch (err) {
             console.log(err);
         }
     }
-
-
 
     //Checkbox Handler
     const checkHandler = async (event, todo) => {
@@ -84,14 +78,14 @@ const Todo = () => {
             await runTransaction(db, async (transaction) => {
                 const todoDoc = await transaction.get(docRef);
                 if (!todoDoc.exists()) {
-                    throw "Document does not exist!";
+                    throw "Documento não existe!";
                 }
                 const newValue = !todoDoc.data().isChecked;
                 transaction.update(docRef, { isChecked: newValue });
             });
-            console.log("Transaction successfully committed!");
+            console.log("Transação feita e commitada!");
         } catch (error) {
-            console.log("Transaction failed: ", error);
+            console.log("Falha na transação: ", error);
         }
 
     };
@@ -107,7 +101,7 @@ const Todo = () => {
                                     data-bs-toggle="modal"
                                     data-bs-target="#addModal"
                                     type="button"
-                                    className="btn btn-info">Add Todo
+                                    className="btn btn-info">Adicionar Tarefa
                                 </button>
 
                                 {todos.map(({ todo, id, isChecked, timestamp }) =>
@@ -135,7 +129,7 @@ const Todo = () => {
                                                 type="button"
                                                 className="btn btn-danger float-end"
                                                 onClick={() => deleteTodo(id)}
-                                            >Delete</button>
+                                            >Apagar</button>
                                         </div>
                                     </div>
                                 )}
@@ -152,21 +146,21 @@ const Todo = () => {
                     <form className="d-flex" onSubmit={submitTodo}>
                         <div className="modal-content">
                             <div className="modal-header">
-                                <h5 className="modal-title" id="addModalLabel">Add Todo</h5>
+                                <h5 className="modal-title" id="addModalLabel">Adicionar Tarefa</h5>
                                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div className="modal-body">
                                 <input
                                     type="text"
                                     className="form-control"
-                                    placeholder="Add a Todo"
+                                    placeholder="Adicionar Terefa"
                                     onChange={(e) => setCreateTodo(e.target.value)}
                                 />
                             </div>
                             <div className="modal-footer">
-                                <button className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button className="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
 
-                                <button className="btn btn-primary">Create Todo</button>
+                                <button className="btn btn-primary">Criar Tarefa</button>
                             </div>
                         </div>
                     </form>
